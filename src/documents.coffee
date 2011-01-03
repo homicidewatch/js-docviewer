@@ -34,7 +34,7 @@ class SearchResult extends Backbone.Collection
 
 # views
 
-TEMPLATE = '''
+DEFAULT_TEMPLATE = '''
            <span class="doc-innter">
                <div class"img">
                    <a href="<%= canonical_url %>"><img src="<%= resources.page.image.replace(/{page}/, 1).replace(/{size}/, 'small') %>" /></a>
@@ -51,10 +51,11 @@ class DocView extends Backbone.View
     
     initialize: (opts) ->
         @id = opts.model.id
+        @template = window.DOCUMENT_LIST_TEMPLATE or DEFAULT_TEMPLATE
         return this
     
     render: =>
-        $(@el).html( _.template TEMPLATE, @model.toJSON() )
+        $(@el).html( _.template @template, @model.toJSON() )
             .css({
                 float: "left"
                 position: "relative"
@@ -62,12 +63,13 @@ class DocView extends Backbone.View
                 height: "250px"
             })
 
-class @DocWidget extends Backbone.View
+class @DocumentList extends Backbone.View
     
     initialize: (opts) ->
-        @el = $(opts.target)
+        @el = $(opts.target) or $('#documents')
         delete opts.target
-        @results = new SearchResult [], opts
+        
+        @results = new SearchResult [], params: opts
         return this
     
     render: =>
