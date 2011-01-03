@@ -37,10 +37,10 @@ class SearchResult extends Backbone.Collection
 DEFAULT_TEMPLATE = '''
            <span class="doc-innter">
                <div class"img">
-                   <a href="<%= canonical_url %>"><img src="<%= resources.page.image.replace(/{page}/, 1).replace(/{size}/, 'small') %>" /></a>
+                   <a href="#<%= id %>"><img src="<%= resources.page.image.replace(/{page}/, 1).replace(/{size}/, 'small') %>" /></a>
                </div>
                <div class="title" style="width: 180px;text-align:center;">
-                   <a href="<%= canonical_url %>"><%= title %></a>
+                   <a href="#<%= id %>"><%= title %></a>
                </div>
            </span>
            '''
