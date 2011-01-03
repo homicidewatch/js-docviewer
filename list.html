@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <title>DocWidgets!</title>
+        
+        <link rel="stylesheet" href="https://github.com/joshuaclayton/blueprint-css/raw/master/blueprint/screen.css" type="text/css" media="screen" title="blueprint" charset="utf-8" />
+        
+        <script src="http://code.jquery.com/jquery-1.4.4.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="lib/underscore-min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="lib/backbone.js" type="text/javascript" charset="utf-8"></script>
+        <script src="lib/documents.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body>
+        <div class="container">
+        <h1 id="hello">Hello, Documents!</h1>
+        <div id="main">
+            
+        </div>
+        <script type="text/javascript" charset="utf-8">
+         $(document).ready(function() {
+            window.DOCUMENT_LIST_TEMPLATE = $('#doc-template').html();
+            window.documents = new DocumentList({
+                container: "#main",
+                q: "group:newshour",
+                per_page: 12
+            }).render()
+        });
+        </script>
+        <script type="x-template" id="doc-template" charset="utf-8">
+            <span class="doc-innter">
+                <div class"img">
+                    <a href="<%= canonical_url %>">
+                        <img src="<%= resources.page.image.replace(/{page}/, 1).replace(/{size}/, 'small') %>" />
+                    </a>
+                </div>
+                <div class="title" style="width: 180px;text-align:center;">
+                    <a href="<%= canonical_url %>"><%= title %></a>
+                </div>
+            </span>
+            
+        </script>
+        </div>
+    </body>
+</html>

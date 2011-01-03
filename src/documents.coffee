@@ -66,13 +66,19 @@ class DocView extends Backbone.View
 class @DocumentList extends Backbone.View
     
     initialize: (opts) ->
-        @el = $(opts.target) or $('#documents')
-        delete opts.target
+        @container = opts.container or '#documents'
+        @el = $(@container)
+        delete opts.container
         
         @results = new SearchResult [], params: opts
         return this
     
+    empty: =>
+        $(@el).empty()
+        return this
+    
     render: =>
+        @empty()
         root = this
         $(document).ready ->
             root.results.fetch 
@@ -81,4 +87,30 @@ class @DocumentList extends Backbone.View
                     root.results.each (doc, i) ->
                         root.el.append doc.view.render()
         return this
+
+class @DocumentViewer extends Backbone.Controller
+    
+    initialize: (opts) ->
+        @viewerOpts = _.extend({
+            container: opts.container or '#documents'
+            sidebar: true
+            width: $(opts.container).width() or 960
+        }, opts.viewer or {})
+        delete opts.viewer
         
+        @list = new DocumentList opts
+        Backbone.history.start()
+        return this
+            
+    routes:
+        ":id" : "documentDetail"
+        ""        : "documentList"
+    
+    documentDetail: (id) =>
+        @list.empty()
+        DV.load "http://www.documentcloud.org/documents/#{id}.js", @viewerOpts
+    
+    documentList: =>
+        @list.render()
+
+
