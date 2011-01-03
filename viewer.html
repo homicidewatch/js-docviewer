@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://github.com/joshuaclayton/blueprint-css/raw/master/blueprint/screen.css" type="text/css" media="screen" title="blueprint" charset="utf-8" />
         
         <script src="http://code.jquery.com/jquery-1.4.4.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="http://s3.documentcloud.org/viewer/loader.js" type="text/javascript"></script>
         <script src="lib/underscore-min.js" type="text/javascript" charset="utf-8"></script>
         <script src="lib/backbone.js" type="text/javascript" charset="utf-8"></script>
         <script src="lib/documents.js" type="text/javascript" charset="utf-8"></script>
@@ -13,9 +14,43 @@
     </head>
     <body>
     <div class="container">
-        <div id="documents">
+        <div class="container">
+            <h1>A nice little portable document viewer</h1>
+        </div>
+        <div id="documents" class="container clear">
             Documents will render here...
         </div>
+        <div class="container clear">
+            <p>Here's some footer text that will be below the document</p>
+        </div>
+        <script type="text/javascript" charset="utf-8">
+        $(document).ready(function(){
+            window.DOCUMENT_LIST_TEMPLATE = $('#doc-template').html();
+            window.viewer = new DocumentViewer({
+                container: "#documents",
+                q: "group:homicide-watch",
+                viewer: {
+                    height: 1000,
+                    width: 960,
+                    sidebar: true
+                }
+            });
+        });
+        </script>
+        <script type="x-template" id="doc-template" charset="utf-8">
+            <span class="doc-innter">
+                <div class"img">
+                    <a href="#<%= id %>">
+                        <img src="<%= resources.page.image.replace(/{page}/, 1).replace(/{size}/, 'small') %>" />
+                    </a>
+                </div>
+                <div class="title" style="width: 180px;text-align:center;">
+                    <a href="#<%= id %>"><%= title %></a>
+                </div>
+            </span>
+            
+        </script>
+        
     </div>
     </body>
 </html>

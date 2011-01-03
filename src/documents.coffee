@@ -104,13 +104,18 @@ class @DocumentViewer extends Backbone.Controller
             
     routes:
         ":id" : "documentDetail"
-        ""        : "documentList"
+        # ".*"    : "documentList"
     
     documentDetail: (id) =>
-        @list.empty()
-        DV.load "http://www.documentcloud.org/documents/#{id}.js", @viewerOpts
+        if id
+            @list.empty()
+            DV.load("http://www.documentcloud.org/documents/#{id}.js", @viewerOpts)
+            return this
+        else
+            @documentList()
     
     documentList: =>
         @list.render()
+        return this
 
 
