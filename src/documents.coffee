@@ -75,6 +75,9 @@ class @DocumentList extends Backbone.View
     
     empty: =>
         $(@el).empty()
+        $(@el).css
+            width: ''
+            height: ''
         return this
     
     render: =>
@@ -104,7 +107,6 @@ class @DocumentViewer extends Backbone.Controller
             
     routes:
         ":id" : "documentDetail"
-        # ".*"    : "documentList"
     
     documentDetail: (id) =>
         if id
