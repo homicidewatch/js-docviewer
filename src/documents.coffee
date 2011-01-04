@@ -23,7 +23,10 @@ class SearchResult extends Backbone.Collection
     model: Document
     
     initialize: (models, opts) ->
-        @params = opts.params or {}
+        @params = _.extend({
+            per_page: 10,
+            page: 1
+        }, opts.params)
         return this
     
     parse: (resp) ->
@@ -106,7 +109,8 @@ class @DocumentViewer extends Backbone.Controller
         return this
             
     routes:
-        ":id" : "documentDetail"
+        ":id"        : "documentDetail"
+        "page/:page" : "getPage"
     
     documentDetail: (id) =>
         if id
@@ -119,5 +123,9 @@ class @DocumentViewer extends Backbone.Controller
     documentList: =>
         @list.render()
         return this
+    
+    getPage: (page=1) =>
+        @list.results.params.page = page
+        @documentList()
 
 
